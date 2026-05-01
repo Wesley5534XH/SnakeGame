@@ -2,33 +2,44 @@ package snakegame.sprites;
 
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
+import com.github.hanyaeger.api.entities.Collided;
+import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.SceneBorderTouchingWatcher;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.api.userinput.KeyListener;
 import javafx.scene.input.KeyCode;
-
+import snakegame.SnakeGame;
+import snakegame.entities.text.PointsManager;
+import java.util.List;
 import java.util.Set;
 
-public class Snake extends DynamicSpriteEntity implements KeyListener, SceneBorderTouchingWatcher {
+public class Snake extends DynamicSpriteEntity implements KeyListener, SceneBorderTouchingWatcher, Collided {
+
+    private SnakeGame game;
+    private PointsManager points;
 
 
-    public Snake(Coordinate2D coordinate) {
+    public Snake(Coordinate2D coordinate, PointsManager points, SnakeGame game) {
         super("sprites/SnakeHead.png", coordinate, new Size(40, 40));
+        this.game = game;
+        this.points = points;
+
+        points.setPointsText(3);
     }
 
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys) {
         if (pressedKeys.contains(KeyCode.LEFT)) {
-            setMotion(10, 270d);
+            setMotion(3, 270d);
             setCurrentFrameIndex(2);
         } else if (pressedKeys.contains(KeyCode.RIGHT)) {
-            setMotion(10, 90d);
+            setMotion(3, 90d);
             setCurrentFrameIndex(1);
         } else if (pressedKeys.contains(KeyCode.UP)) {
-            setMotion(10, 180d);
+            setMotion(3, 180d);
         } else if (pressedKeys.contains(KeyCode.DOWN)) {
-            setMotion(10, 0d);
+            setMotion(3, 0d);
         }
     }
 
@@ -52,4 +63,12 @@ public class Snake extends DynamicSpriteEntity implements KeyListener, SceneBord
                 break;
         }
     }
+
+    @Override
+    public void onCollision(List<Collider> collidingObjects) {
+                game.setActiveScene(2);
+    }
+
+
 }
+

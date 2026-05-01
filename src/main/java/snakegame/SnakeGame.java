@@ -2,6 +2,7 @@ package snakegame;
 
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.YaegerGame;
+import snakegame.scenes.GameOverScene;
 import snakegame.scenes.GameScene;
 import snakegame.scenes.MainMenuScene;
 
@@ -16,7 +17,8 @@ public class SnakeGame extends YaegerGame{
     @Override
     public void setupScenes() {
         addScene(0, new MainMenuScene(this));
-        addScene(1, new GameScene());
+        addScene(1, new GameScene(this));
+        addScene(2, new GameOverScene());
     }
     public static void main(String[] args) {
         launch(args);

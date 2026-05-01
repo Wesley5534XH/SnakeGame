@@ -2,13 +2,19 @@ package snakegame.scenes;
 
 import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.scenes.DynamicScene;
-import org.checkerframework.checker.units.qual.C;
+import snakegame.SnakeGame;
+import snakegame.entities.text.PointsManager;
 import snakegame.sprites.Snake;
 import snakegame.sprites.Wall;
 
-public class GameScene extends DynamicScene {
-    public GameScene() {
+import java.util.Random;
 
+public class GameScene extends DynamicScene {
+
+    private SnakeGame game;
+
+    public GameScene(SnakeGame game) {
+        this.game = game;
     }
 
     @Override
@@ -19,10 +25,27 @@ public class GameScene extends DynamicScene {
 
     @Override
     public void setupEntities() {
-        Snake snake = new Snake(new Coordinate2D(100, 100));
+        PointsManager points = new PointsManager(new Coordinate2D(50, 50));
+        addEntity(points);
+
+        Snake snake = new Snake(new Coordinate2D(100, 100), points, game);
         addEntity(snake);
 
-        Wall wall = new Wall(new Coordinate2D(200, 200));
-        addEntity(wall);
+        spawnWalls(5);
+    }
+
+    private void spawnWalls(int amount) {
+        Random random = new Random();
+        int tileSize = 40;
+        int wallLocationX = 380;
+        int wallLocationY = 200;
+
+        for (int i = 0; i < amount; i++) {
+
+            int x = wallLocationX;
+            int y = wallLocationY + tileSize * i;
+
+            addEntity(new Wall(new Coordinate2D(x, y)));
+        }
     }
 }
