@@ -1,0 +1,33 @@
+package snakegame;
+
+import com.github.hanyaeger.api.Size;
+import com.github.hanyaeger.api.YaegerGame;
+import snakegame.entities.text.ScoreManager;
+import snakegame.scenes.GameOverScene;
+import snakegame.scenes.GameScene;
+import snakegame.scenes.MainMenuScene;
+
+public class SnakeGame extends YaegerGame {
+
+    private final ScoreManager scoreManager =  new ScoreManager();
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void setupGame() {
+        setGameTitle("Snake Game");
+        setSize(new Size(800, 600));
+    }
+
+    @Override
+    public void setupScenes() {
+        addScene(0, new MainMenuScene(this));
+        addScene(1, new GameScene(this, scoreManager));
+        addScene(2, new GameOverScene(this, scoreManager));
+    }
+    public ScoreManager getScoreManager() {
+        return scoreManager;
+    }
+} //test
